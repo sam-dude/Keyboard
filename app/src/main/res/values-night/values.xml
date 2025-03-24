@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- RelateOS Colors (Dark Mode) -->
+    <color name="relateos_blue">#6b26d9</color>
+    <color name="relateos_lightblue">#af8ce6</color>
+    <color name="relateos_black">#09090b</color>
+    <color name="relateos_grey_dark">#6e6e6e</color>
+    <color name="relateos_grey_light_bg">#272729</color>
+    <color name="relateos_white_bg">#18181a</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

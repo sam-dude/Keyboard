@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.hadirahimi.keyboard"
+    namespace = "com.relateos.keyboard"
     compileSdk = 33
     
     defaultConfig {
-        applicationId = "com.hadirahimi.keyboard"
+        applicationId = "com.relateos.keyboard"
         minSdk = 26
         targetSdk = 33
         versionCode = 1

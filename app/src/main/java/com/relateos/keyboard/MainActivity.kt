@@ -1,4 +1,4 @@
-package com.hadirahimi.keyboard
+package com.relateos.keyboard
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,7 @@ import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.hadirahimi.keyboard.databinding.ActivityMainBinding
+import com.relateos.keyboard.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity()
 {
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity()
     private fun isKeyboardEnabled(): Boolean {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         val enabledInputMethodIds = inputMethodManager.enabledInputMethodList.map { it.id }
-        return enabledInputMethodIds.contains("com.hadirahimi.keyboard/.MyKeyboard")
+        return enabledInputMethodIds.contains("com.relateos.keyboard/.MyKeyboard")
     }
     
     // Function to open the keyboard settings to choose a keyboard

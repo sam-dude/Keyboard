@@ -1,4 +1,4 @@
-package com.hadirahimi.keyboard
+package com.relateos.keyboard
 
 import org.junit.Test
 

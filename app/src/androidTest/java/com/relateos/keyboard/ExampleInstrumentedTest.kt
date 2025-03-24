@@ -1,4 +1,4 @@
-package com.hadirahimi.keyboard
+package com.relateos.keyboard
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -21,6 +21,6 @@ class ExampleInstrumentedTest
     {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.hadirahimi.keyboard" , appContext.packageName)
+        assertEquals("com.relateos.keyboard" , appContext.packageName)
     }
 }

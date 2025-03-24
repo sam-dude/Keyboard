@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- RelateOS Colors (Light Mode) -->
+    <color name="relateos_blue">#6b26d9</color>
+    <color name="relateos_lightblue">#af8ce6</color>
+    <color name="relateos_black">#09090b</color>
+    <color name="relateos_grey_dark">#6e6e6e</color>
+    <color name="relateos_grey_light_bg">#f4f4f4</color>
+    <color name="relateos_white">#ffffff</color>
 </resources>
