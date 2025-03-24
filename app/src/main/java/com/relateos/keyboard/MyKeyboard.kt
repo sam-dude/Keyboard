@@ -10,10 +10,12 @@ import android.content.res.Configuration
 import androidx.core.content.ContextCompat
 import com.relateos.keyboard.R
 import com.relateos.keyboard.databinding.KeyboardLayoutBinding
+import android.graphics.drawable.Drawable
 
 class MyKeyboard : InputMethodService() {
     
     private lateinit var keyboardBinding: KeyboardLayoutBinding
+    private var capsState = 0 // 0: off, 1: next, 2: caps lock
     
     companion object {
         val buttonIds = arrayOf(
@@ -21,7 +23,7 @@ class MyKeyboard : InputMethodService() {
             R.id.btnQ, R.id.btnW, R.id.btnE, R.id.btnR, R.id.btnT, R.id.btnY, R.id.btnU, R.id.btnI, R.id.btnO, R.id.btnP,
             R.id.btnA, R.id.btnS, R.id.btnD, R.id.btnF, R.id.btnG, R.id.btnH, R.id.btnJ, R.id.btnK, R.id.btnL,
             R.id.btnZ, R.id.btnX, R.id.btnC, R.id.btnV, R.id.btnB, R.id.btnN, R.id.btnM, R.id.btnDot, R.id.btnComma,
-            R.id.btnSpace, R.id.btnEnter, R.id.btnBackSpace
+            R.id.btnSpace, R.id.btnEnter, R.id.btnBackSpace, R.id.btnCaps // Add the Caps button
         )
     }
     
@@ -35,7 +37,23 @@ class MyKeyboard : InputMethodService() {
             val button = keyboardBinding.root.findViewById<Button>(buttonId)
             button?.setOnClickListener {
                 val inputConnection = currentInputConnection
-                inputConnection?.commitText(button.text.toString(), 1)
+                if (inputConnection != null) {
+                    if (buttonId == R.id.btnCaps) {
+                        capsState = (capsState + 1) % 3 // Cycle through 0, 1, 2
+                        updateCapsButtonIcon()
+                    } else {
+                        var text = button.text.toString()
+                        if (capsState == 1) {
+                            text = text.uppercase()
+                            capsState = 0 // Reset to off after one character
+                            updateCapsButtonIcon()
+                        } else if (capsState == 2) {
+                            text = text.uppercase()
+                        }
+                        inputConnection.commitText(text, 1)
+                        
+                    }
+                }
             }
         }
         
@@ -93,6 +111,17 @@ class MyKeyboard : InputMethodService() {
                 button?.background = ContextCompat.getDrawable(this, R.drawable.btn_white_ripple)
             }
         }
+    }
+    
+    private fun updateCapsButtonIcon() {
+        val capsButton = keyboardBinding.root.findViewById<Button>(R.id.btnCaps)
+        val icon: Drawable? = when (capsState) {
+            0 -> ContextCompat.getDrawable(this, R.drawable.ic_keyboard_caps_outline) // Caps off
+            1 -> ContextCompat.getDrawable(this, R.drawable.ic_keyboard_caps_underlined) // Caps next
+            2 -> ContextCompat.getDrawable(this, R.drawable.ic_keyboard_caps) // Caps lock
+            else -> ContextCompat.getDrawable(this, R.drawable.ic_keyboard_caps_outline)
+        }
+        capsButton?.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
     }
 }
 

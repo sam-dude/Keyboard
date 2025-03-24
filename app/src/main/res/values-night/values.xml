@@ -8,4 +8,14 @@
     <color name="relateos_grey_light_bg">#272729</color>
     <color name="relateos_white_bg">#18181a</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Keyboard specific colors (mapped to RelateOS colors) -->
+    <color name="keyboard_key_text">@color/relateos_white</color> <!-- Default text color for keys -->
+    <color name="keypad_action_icon">@color/relateos_white</color> <!-- Default icon color for action keys -->
+    <color name="keyboard_key_background_pressed">@color/relateos_grey_dark</color> <!-- Ripple color when key is pressed -->
+    <color name="keyboard_key_background">@color/relateos_white_bg</color> <!-- Background color for keys -->
+    <color name="keyboard_key_functional_background">@color/relateos_blue</color> <!-- Background for functional keys (Shift, Backspace) -->
+    <color name="keyboard_key_border">@color/relateos_grey_dark</color> <!-- Border color for keys -->
+    <color name="keyboard_preview_background">@color/relateos_grey_light_bg</color> <!-- Background for key preview popup -->
+    <color name="keyboard_preview_border">@color/relateos_grey_dark</color> <!-- Border for key preview popup -->
 </resources>

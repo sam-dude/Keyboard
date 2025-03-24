@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="keyboard_key_corner_radius">6dp</dimen> <!-- Corner radius for keys -->
+    <dimen name="keyboard_key_stroke_width">1dp</dimen> <!-- Border width for keys -->
+    <dimen name="keyboard_preview_corner_radius">8dp</dimen> <!-- Corner radius for key preview popup -->
+</resources>
