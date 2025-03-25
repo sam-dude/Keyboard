@@ -23,15 +23,16 @@ class MyKeyboard : InputMethodService() {
             R.id.btnQ, R.id.btnW, R.id.btnE, R.id.btnR, R.id.btnT, R.id.btnY, R.id.btnU, R.id.btnI, R.id.btnO, R.id.btnP,
             R.id.btnA, R.id.btnS, R.id.btnD, R.id.btnF, R.id.btnG, R.id.btnH, R.id.btnJ, R.id.btnK, R.id.btnL,
             R.id.btnZ, R.id.btnX, R.id.btnC, R.id.btnV, R.id.btnB, R.id.btnN, R.id.btnM, R.id.btnDot, R.id.btnComma,
-            R.id.btnSpace, R.id.btnEnter, R.id.btnBackSpace, R.id.btnCaps // Add the Caps button
+            R.id.btnSpace, R.id.btnEnter, R.id.btnBackSpace, R.id.btnCaps, R.id.btnSymbols // Add the Caps button
         )
     }
     
     override fun onCreateInputView(): View {
         keyboardBinding = KeyboardLayoutBinding.inflate(layoutInflater)
-        
+
         // Apply theme based styling
         applyThemeBasedStyling()
+        setButtonStyle(if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) R.style.btnDarkTheme else R.style.btnLightTheme)
         
         for (buttonId in buttonIds) {
             val button = keyboardBinding.root.findViewById<Button>(buttonId)
@@ -41,6 +42,10 @@ class MyKeyboard : InputMethodService() {
                     if (buttonId == R.id.btnCaps) {
                         capsState = (capsState + 1) % 3 // Cycle through 0, 1, 2
                         updateCapsButtonIcon()
+                        setButtonStyle(if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) R.style.btnDarkTheme else R.style.btnLightTheme)
+                    } else if (buttonId == R.id.btnSymbols) {
+                        // TODO: Implement the logic to toggle between the letter and symbol layouts
+                        // For now, let's just show a toast message
                     } else {
                         var text = button.text.toString()
                         if (capsState == 1) {
@@ -51,7 +56,7 @@ class MyKeyboard : InputMethodService() {
                             text = text.uppercase()
                         }
                         inputConnection.commitText(text, 1)
-                        
+
                     }
                 }
             }
@@ -109,6 +114,51 @@ class MyKeyboard : InputMethodService() {
                 button?.background = ContextCompat.getDrawable(this, R.drawable.btn_ripple)
             } else {
                 button?.background = ContextCompat.getDrawable(this, R.drawable.btn_white_ripple)
+            }
+
+            // Change the text to uppercase if capsState is 2 and the button is a letter
+            if (capsState == 2 && buttonId != R.id.btnSymbols && buttonId != R.id.btnSpace && buttonId != R.id.btnEnter && buttonId != R.id.btnBackSpace && buttonId != R.id.btnCaps) {
+                val buttonText = button?.text?.toString()
+                if (buttonText?.length == 1 && buttonText[0].isLetter()) {
+                    button.text = buttonText.uppercase()
+                }
+            } else {
+                // Restore the original text if capsState is not 2
+                val originalText = when (buttonId) {
+                    R.id.btnQ -> "q"
+                    R.id.btnW -> "w"
+                    R.id.btnE -> "e"
+                    R.id.btnR -> "r"
+                    R.id.btnT -> "t"
+                    R.id.btnY -> "y"
+                    R.id.btnU -> "u"
+                    R.id.btnI -> "i"
+                    R.id.btnO -> "o"
+                    R.id.btnP -> "p"
+                    R.id.btnA -> "a"
+                    R.id.btnS -> "s"
+                    R.id.btnD -> "d"
+                    R.id.btnF -> "f"
+                    R.id.btnG -> "g"
+                    R.id.btnH -> "h"
+                    R.id.btnJ -> "j"
+                    R.id.btnK -> "k"
+                    R.id.btnL -> "l"
+                    R.id.btnZ -> "z"
+                    R.id.btnX -> "x"
+                    R.id.btnC -> "c"
+                    R.id.btnV -> "v"
+                    R.id.btnB -> "b"
+                    R.id.btnN -> "n"
+                    R.id.btnM -> "m"
+                    R.id.btnSymbols -> "!#1"
+                    R.id.btnSpace -> "English"
+                    R.id.btnEnter -> "Enter"
+                    R.id.btnDot -> "."
+                    R.id.btnComma -> ","
+                    else -> button?.text?.toString() // Keep the current text for other buttons
+                }
+                button?.text = originalText
             }
         }
     }

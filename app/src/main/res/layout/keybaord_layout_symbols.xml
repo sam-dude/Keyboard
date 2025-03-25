@@ -48,14 +48,12 @@
             android:id="@+id/btn6"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:background="@drawable/btn_white_ripple"
             android:text="6" />
 
         <Button
             android:id="@+id/btn7"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:background="@drawable/btn_white_ripple"
             android:text="7" />
 
         <Button
@@ -88,64 +86,64 @@
         android:weightSum="10">
 
         <Button
-            android:id="@+id/btnQ"
+            android:id="@+id/btnExclamation"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="q" />
+            android:text="!" />
 
         <Button
-            android:id="@+id/btnW"
+            android:id="@+id/btnAt"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="w" />
+            android:text="\@" />
 
         <Button
-            android:id="@+id/btnE"
+            android:id="@+id/btnHash"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="e" />
+            android:text="#" />
 
         <Button
-            android:id="@+id/btnR"
+            android:id="@+id/btnDollar"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="r" />
+            android:text="$" />
 
         <Button
-            android:id="@+id/btnT"
+            android:id="@+id/btnPercent"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="t" />
+            android:text="%" />
 
         <Button
-            android:id="@+id/btnY"
+            android:id="@+id/btnCaret"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="y" />
+            android:text="^" />
 
         <Button
-            android:id="@+id/btnU"
+            android:id="@+id/btnAmpersand"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="u" />
+            android:text="&amp;" />
 
         <Button
-            android:id="@+id/btnI"
+            android:id="@+id/btnAsterisk"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="i" />
+            android:text="*" />
 
         <Button
-            android:id="@+id/btnO"
+            android:id="@+id/btnLeftParen"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="o" />
+            android:text="(" />
 
         <Button
-            android:id="@+id/btnP"
+            android:id="@+id/btnRightParen"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="p" />
+            android:text=")" />
 
     </LinearLayout>
 
@@ -159,59 +157,64 @@
         android:weightSum="10">
 
         <Button
-            android:id="@+id/btnA"
+            android:id="@+id/btnDash"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="a" />
+            android:text="-" />
 
         <Button
-            android:id="@+id/btnS"
+            android:id="@+id/btnUnderscore"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="s" />
+            android:text="_" />
 
         <Button
-            android:id="@+id/btnD"
+            android:id="@+id/btnPlus"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="d" />
+            android:text="+" />
 
         <Button
-            android:id="@+id/btnF"
+            android:id="@+id/btnEquals"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="f" />
+            android:text="=" />
 
         <Button
-            android:id="@+id/btnG"
+            android:id="@+id/btnLeftBracket"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="g" />
+            android:text="[" />
 
         <Button
-            android:id="@+id/btnH"
+            android:id="@+id/btnRightBracket"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="h" />
+            android:text="]" />
 
         <Button
-            android:id="@+id/btnJ"
+            android:id="@+id/btnLeftBrace"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="j" />
+            android:text="{" />
 
         <Button
-            android:id="@+id/btnK"
+            android:id="@+id/btnRightBrace"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="k" />
+            android:text="}" />
 
         <Button
-            android:id="@+id/btnL"
+            android:id="@+id/btnSemicolon"
             style="@style/btnLightTheme"
             android:layout_weight="1"
-            android:text="l" />
+            android:text=";" />
 
+        <Button
+            android:id="@+id/btnColon"
+            style="@style/btnLightTheme"
+            android:layout_weight="1"
+            android:text=":" />
 
     </LinearLayout>
 
@@ -225,86 +228,58 @@
         android:weightSum="10">
 
         <Button
-            android:id="@+id/btnCaps"
+            android:id="@+id/btnBackslash"
+            style="@style/btnLightTheme"
+            android:layout_weight="1"
+            android:text="\\" />
+
+        <Button
+            android:id="@+id/btnPipe"
+            style="@style/btnLightTheme"
+            android:layout_weight="1"
+            android:text="|" />
+
+        <Button
+            android:id="@+id/btnLessThan"
+            style="@style/btnLightTheme"
+            android:layout_weight="1"
+            android:text="&lt;" />
+
+        <Button
+            android:id="@+id/btnGreaterThan"
+            style="@style/btnLightTheme"
+            android:layout_weight="1"
+            android:text=">" />
+
+        <Button
+            android:id="@+id/btnSlash"
+            style="@style/btnLightTheme"
+            android:layout_weight="1"
+            android:text="/" />
+
+        <Button
+            android:id="@+id/btnQuestionMark"
+            style="@style/btnLightTheme"
+            android:layout_weight="1"
+            android:text="\?" />
+
+        <Button
+            android:id="@+id/btnQuote"
+            style="@style/btnLightTheme"
+            android:layout_weight="1"
+            android:text="&quot;" />
+
+        <Button
+            android:id="@+id/btnApostrophe"
+            style="@style/btnLightTheme"
+            android:layout_weight="1"
+            android:text="&apos;" />
+
+        <Button
+            android:id="@+id/btnSymbolsToggle"
             style="@style/btnDarkTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:drawableStart="@drawable/ic_keyboard_caps_outline"
-            android:contentDescription="Caps Lock"
-            android:gravity="center"
-            android:paddingStart="16dp"
-            android:paddingEnd="8dp"
-            android:text="" />
-
-        <Button
-            android:id="@+id/btnZ"
-            style="@style/btnLightTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="z" />
-
-        <Button
-            android:id="@+id/btnX"
-            style="@style/btnLightTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="x" />
-
-        <Button
-            android:id="@+id/btnC"
-            style="@style/btnLightTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="c" />
-
-        <Button
-            android:id="@+id/btnV"
-            style="@style/btnLightTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="v" />
-
-        <Button
-            android:id="@+id/btnB"
-            style="@style/btnLightTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="b" />
-
-        <Button
-            android:id="@+id/btnN"
-            style="@style/btnLightTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="n" />
-
-        <Button
-            android:id="@+id/btnM"
-            style="@style/btnLightTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="m" />
-
-        <Button
-            android:id="@+id/btnBackSpace"
-            style="@style/btnDarkTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:drawableStart="@drawable/ic_keyboard_backspace"
-            android:contentDescription="Delete"
-            android:gravity="center"
-            android:paddingStart="16dp"
-            android:paddingEnd="8dp"
-            android:text="" />
+            android:layout_weight="2"
+            android:text="ABC" />
 
     </LinearLayout>
 
