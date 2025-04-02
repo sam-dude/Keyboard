@@ -3,4 +3,9 @@
     <string name="mykeyboard">RelateOS Keyboard</string>
     <string name="enable_keyboard">enable keyboard</string>
     <string name="choose_keyboard">Choose Keyboard</string>
+    <string-array name="theme_options">
+        <item>System Default</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
 </resources>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Menu"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:columnCount="2">
+
+        <Button
+            android:id="@+id/btnMenuChatAssistant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="4dp"
+            android:drawableTop="@drawable/ic_keyboard_chat"
+            android:text="Chat Assistant"
+            style="@style/btnLightTheme"/>
+
+        <Button
+            android:id="@+id/btnMenuConversation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="4dp"
+            android:drawableTop="@drawable/ic_keyboard_conversations"
+            android:text="Conversation"
+            style="@style/btnLightTheme"/>
+
+        <Button
+            android:id="@+id/btnMenuClipboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="4dp"
+            android:drawableTop="@drawable/ic_keyboard_clipboard"
+            android:text="Clipboard"
+            style="@style/btnLightTheme"/>
+
+        <Button
+            android:id="@+id/btnMenuSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="4dp"
+            android:drawableTop="@drawable/ic_menu_setting"
+            android:text="Settings"
+            style="@style/btnLightTheme"/>
+
+        <Button
+            android:id="@+id/btnMenuEmoji"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="4dp"
+            android:drawableTop="@drawable/ic_keyboard_emoji_emotions"
+            android:text="Emoji"
+            style="@style/btnLightTheme"/>
+
+        <Button
+            android:id="@+id/btnMenuLanguage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="4dp"
+            android:drawableTop="@drawable/ic_keyboard_search"
+            android:text="Language"
+            style="@style/btnLightTheme"/>
+    </GridLayout>
+
+    <Button
+        android:id="@+id/btnBackToKeyboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Back to Keyboard"
+        style="@style/btnDarkTheme"/>
+</LinearLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!-- Top section that can toggle between auto-suggestions and screen toggles -->
+    <FrameLayout
+        android:id="@+id/topSectionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white">
+
+        <!-- Auto-suggestions layout (visible when typing) -->
+        <LinearLayout
+            android:id="@+id/autoSuggestionsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:visibility="visible">
+
+            <!-- Toggle button to switch to screen toggles -->
+            <ImageButton
+                android:id="@+id/btnToggleScreens"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_menu_setting"
+                android:contentDescription="Toggle screens"
+                android:background="@android:color/transparent" />
+
+            <!-- Auto-suggestions will be added here dynamically -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:id="@+id/suggestionContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <!-- Screen toggles layout (hidden initially) -->
+        <HorizontalScrollView
+            android:id="@+id/screenTogglesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnChatAssistant"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_keyboard_chat"
+                    android:contentDescription="Chat Assistant" />
+
+                <ImageButton
+                    android:id="@+id/btnConversation"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_keyboard_conversations"
+                    android:contentDescription="Conversation" />
+
+                <ImageButton
+                    android:id="@+id/btnClipboard"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_keyboard_clipboard"
+                    android:contentDescription="Clipboard" />
+
+                <ImageButton
+                    android:id="@+id/btnSettings"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_menu_setting"
+                    android:contentDescription="Settings" />
+
+                <ImageButton
+                    android:id="@+id/btnMenu"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:src="@android:drawable/ic_menu_more"
+                    android:contentDescription="Menu" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </FrameLayout>
+
+    <!-- Container for the keyboard layout (letters, symbols, or functional screens) -->
+    <FrameLayout
+        android:id="@+id/keyboardContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

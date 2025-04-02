@@ -228,16 +228,10 @@
         android:weightSum="10">
 
         <Button
-            android:id="@+id/btnBackslash"
-            style="@style/btnLightTheme"
-            android:layout_weight="1"
-            android:text="\\" />
-
-        <Button
-            android:id="@+id/btnPipe"
-            style="@style/btnLightTheme"
-            android:layout_weight="1"
-            android:text="|" />
+            android:id="@+id/btnSymbolsToggle2"
+            style="@style/btnDarkTheme"
+            android:layout_weight="1.2"
+            android:text="1/2" />
 
         <Button
             android:id="@+id/btnLessThan"
@@ -275,11 +269,18 @@
             android:layout_weight="1"
             android:text="&apos;" />
 
-        <Button
-            android:id="@+id/btnSymbolsToggle"
+         <Button
+            android:id="@+id/btnBackSpace"
             style="@style/btnDarkTheme"
-            android:layout_weight="2"
-            android:text="ABC" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:drawableStart="@drawable/ic_keyboard_backspace"
+            android:contentDescription="Delete"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp"
+            android:text="" />
 
     </LinearLayout>
 
@@ -293,10 +294,10 @@
         android:weightSum="10">
 
         <Button
-            android:id="@+id/btnSymbols"
-            style="@style/btnLightTheme"
+            android:id="@+id/btnSymbolsToggle"
+            style="@style/btnDarkTheme"
             android:layout_weight="1.5"
-            android:text="!#1" />
+            android:text="ABC" />
 
         <Button
             android:id="@+id/btnComma"
