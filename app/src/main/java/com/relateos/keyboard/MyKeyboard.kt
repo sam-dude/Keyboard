@@ -16,10 +16,15 @@ import com.relateos.keyboard.R
 import com.relateos.keyboard.databinding.KeyboardLayoutBinding
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.widget.EditText
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import android.widget.Switch
+import android.widget.Spinner
 
 class MyKeyboard : InputMethodService() {
 
-    private lateinit var keyboardBinding: KeyboardLayoutBinding
+    private lateinit var keyboardBinding: KeyboardBinding
     private var capsState = 0 // 0: off, 1: next, 2: caps lock
     private var isSymbolsLayout = false // Track the current layout
     private var currentScreen = SCREEN_KEYBOARD_LETTERS
@@ -57,16 +62,28 @@ class MyKeyboard : InputMethodService() {
     override fun onCreateInputView(): View {
         val baseView = layoutInflater.inflate(R.layout.keyboard_base_layout, null)
 
+        // Apply theme to top section right away
+        val isNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+        val backgroundColor = if (isNightMode) R.color.relateos_grey_light_bg else R.color.white
+        
+        val topSection = baseView.findViewById<FrameLayout>(R.id.topSectionContainer)
+        val autoSuggestions = baseView.findViewById<LinearLayout>(R.id.autoSuggestionsLayout)
+        val screenToggles = baseView.findViewById<HorizontalScrollView>(R.id.screenTogglesLayout)
+        
+        topSection.setBackgroundColor(ContextCompat.getColor(this, backgroundColor))
+        autoSuggestions.setBackgroundColor(ContextCompat.getColor(this, backgroundColor))
+        screenToggles.setBackgroundColor(ContextCompat.getColor(this, backgroundColor))
+
         val keyboardContainer = baseView.findViewById<FrameLayout>(R.id.keyboardContainer)
         val keyboardView = layoutInflater.inflate(R.layout.keyboard_layout, keyboardContainer, false)
+        keyboardView.setBackgroundColor(ContextCompat.getColor(this, backgroundColor))
         keyboardContainer.addView(keyboardView)
 
-        keyboardBinding = KeyboardLayoutBinding.bind(keyboardView)
+        // Create our custom binding
+        keyboardBinding = KeyboardBinding(keyboardView)
 
-        // Apply theme based styling
-        applyThemeBasedStyling()
-        setButtonStyle(if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) 
-            R.style.btnDarkTheme else R.style.btnLightTheme)
+        // Apply theme based styling using our new approach
+        applyAppropriateTheme()
 
         // Set up the initial layout (letter layout)
         setupButtonListeners(letterButtonIds)
@@ -129,15 +146,32 @@ class MyKeyboard : InputMethodService() {
             SCREEN_KEYBOARD_LETTERS -> {
                 isSymbolsLayout = false
                 val view = layoutInflater.inflate(R.layout.keyboard_layout, container, false)
+                
+                // Apply theme right away
+                val isNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+                val backgroundColor = if (isNightMode) R.color.relateos_grey_light_bg else R.color.white
+                view.setBackgroundColor(ContextCompat.getColor(this, backgroundColor))
+                
+                // Use KeyboardBinding instead of KeyboardLayoutBinding
+                keyboardBinding = KeyboardBinding(view)
                 setupButtonListeners(letterButtonIds)
                 view
             }
             SCREEN_KEYBOARD_SYMBOLS -> {
                 isSymbolsLayout = true
                 val view = layoutInflater.inflate(R.layout.keyboard_layout_symbols, container, false)
+                
+                // Apply theme right away
+                val isNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+                val backgroundColor = if (isNightMode) R.color.relateos_grey_light_bg else R.color.white
+                view.setBackgroundColor(ContextCompat.getColor(this, backgroundColor))
+                
+                // Use KeyboardBinding instead of KeyboardLayoutBinding
+                keyboardBinding = KeyboardBinding(view)
                 setupButtonListeners(symbolButtonIds)
                 view
             }
+            // Rest of the method remains unchanged
             SCREEN_CHAT_ASSISTANT -> {
                 val view = layoutInflater.inflate(R.layout.keyboard_chat_assistant, container, false)
                 setupChatAssistantScreen(view)
@@ -169,9 +203,7 @@ class MyKeyboard : InputMethodService() {
         container.addView(screenView)
 
         if (screenType == SCREEN_KEYBOARD_LETTERS || screenType == SCREEN_KEYBOARD_SYMBOLS) {
-            val isNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-            val styleResId = if (isNightMode) R.style.btnDarkTheme else R.style.btnLightTheme
-            setButtonStyle(styleResId)
+            applyAppropriateTheme()
         }
 
         val baseView = container.parent as View
@@ -204,9 +236,7 @@ class MyKeyboard : InputMethodService() {
         // If we have a KeyboardDataManager, use it to get/set conversation data
         val keyboardDataManager = KeyboardDataManager(this)
         
-        // Any conversation history RecyclerView setup would go here
-        // For example:
-        /*
+        // RecyclerView setup
         val conversationRecyclerView = view.findViewById<RecyclerView>(R.id.conversationRecyclerView)
         val layoutManager = LinearLayoutManager(this)
         conversationRecyclerView.layoutManager = layoutManager
@@ -218,7 +248,6 @@ class MyKeyboard : InputMethodService() {
             currentInputConnection?.commitText(text, 1)
         }
         conversationRecyclerView.adapter = adapter
-        */
         
         // Handle sending messages
         val btnSendMessage = view.findViewById<Button>(R.id.btnSendMessage)
@@ -228,13 +257,13 @@ class MyKeyboard : InputMethodService() {
             val message = etMessage?.text?.toString() ?: ""
             if (message.isNotBlank()) {
                 // Save the message
-                // keyboardDataManager.saveConversation(message)
+                keyboardDataManager.saveConversation(message)
                 
                 // Clear input field
                 etMessage?.text?.clear()
                 
                 // Update UI
-                // adapter.updateData(keyboardDataManager.getConversations())
+                adapter.updateData(keyboardDataManager.getConversations())
                 
                 // Optional: Insert into current text field
                 currentInputConnection?.commitText(message, 1)
@@ -265,15 +294,60 @@ class MyKeyboard : InputMethodService() {
             switchToScreen(SCREEN_KEYBOARD_LETTERS, container)
         }
         
+        val keyboardDataManager = KeyboardDataManager(this)
+        
+        // Initialize settings values
+        val spinnerTheme = view.findViewById<Spinner>(R.id.spinnerTheme)
+        val switchAutoCorrect = view.findViewById<Switch>(R.id.switchAutoCorrect)
+        val switchAutoCapitalize = view.findViewById<Switch>(R.id.switchAutoCapitalize)
+        val etApiKey = view.findViewById<EditText>(R.id.etApiKey)
+        
+        // Set initial values from saved settings
+        when (keyboardDataManager.getSetting(KeyboardDataManager.SETTING_THEME, KeyboardDataManager.THEME_SYSTEM)) {
+            KeyboardDataManager.THEME_SYSTEM -> spinnerTheme.setSelection(0)
+            KeyboardDataManager.THEME_LIGHT -> spinnerTheme.setSelection(1)
+            KeyboardDataManager.THEME_DARK -> spinnerTheme.setSelection(2)
+        }
+        
+        switchAutoCorrect.isChecked = keyboardDataManager.getSetting(
+            KeyboardDataManager.SETTING_AUTO_CORRECT, "false") == "true"
+        
+        switchAutoCapitalize.isChecked = keyboardDataManager.getSetting(
+            KeyboardDataManager.SETTING_AUTO_CAPS, "false") == "true"
+        
+        etApiKey.setText(keyboardDataManager.getSetting(KeyboardDataManager.SETTING_API_KEY, ""))
+        
+        // Save settings button
         val btnSaveSettings = view.findViewById<Button>(R.id.btnSaveSettings)
         btnSaveSettings.setOnClickListener {
-            // TODO: Save settings logic
-            // Get values from UI elements and save them
+            // Save theme
+            val theme = when(spinnerTheme.selectedItemPosition) {
+                0 -> KeyboardDataManager.THEME_SYSTEM
+                1 -> KeyboardDataManager.THEME_LIGHT
+                2 -> KeyboardDataManager.THEME_DARK
+                else -> KeyboardDataManager.THEME_SYSTEM
+            }
+            keyboardDataManager.saveSetting(KeyboardDataManager.SETTING_THEME, theme)
+            
+            // Save auto-correction
+            keyboardDataManager.saveSetting(KeyboardDataManager.SETTING_AUTO_CORRECT, 
+                                           switchAutoCorrect.isChecked.toString())
+            
+            // Save auto-capitalization
+            keyboardDataManager.saveSetting(KeyboardDataManager.SETTING_AUTO_CAPS, 
+                                           switchAutoCapitalize.isChecked.toString())
+            
+            // Save API key
+            keyboardDataManager.saveSetting(KeyboardDataManager.SETTING_API_KEY, 
+                                           etApiKey.text.toString())
+            
+            // Apply theme changes immediately
+            applyAppropriateTheme()
+            
+            // Return to keyboard
             val container = view.parent as FrameLayout
             switchToScreen(SCREEN_KEYBOARD_LETTERS, container)
         }
-        
-        // TODO: Initialize settings UI with saved values
     }
 
     private fun setupMenuScreen(view: View) {
@@ -346,45 +420,100 @@ class MyKeyboard : InputMethodService() {
         
         // Store current theme state
         val isNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-        val currentTheme = if (isNightMode) R.style.btnDarkTheme else R.style.btnLightTheme
-        val currentBackground = if (isNightMode) R.color.black else R.color.white
+        val currentBackground = if (isNightMode) R.color.relateos_grey_light_bg else R.color.white
         
         if (isSymbolsLayout) {
+            // Switch to letters layout
             currentScreen = SCREEN_KEYBOARD_LETTERS
             isSymbolsLayout = false
             
             container.removeAllViews()
             val view = layoutInflater.inflate(R.layout.keyboard_layout, container, false)
+            view.setBackgroundColor(ContextCompat.getColor(this, currentBackground))
             container.addView(view)
             
-            // This is critical - rebind to the new view
-            keyboardBinding = KeyboardLayoutBinding.bind(view)
-            
-            // Setup button listeners with current view context
+            keyboardBinding = KeyboardBinding(view)
             setupButtonListeners(letterButtonIds)
-            
-            // Apply existing style without recalculating theme
-            keyboardBinding.root.setBackgroundColor(ContextCompat.getColor(this, currentBackground))
         } else {
+            // Switch to symbols layout
             currentScreen = SCREEN_KEYBOARD_SYMBOLS
             isSymbolsLayout = true
             
             container.removeAllViews()
-            val view = layoutInflater.inflate(R.layout.keyboard_layout_symbols, container, false) 
+            val view = layoutInflater.inflate(R.layout.keyboard_layout_symbols, container, false)
+            view.setBackgroundColor(ContextCompat.getColor(this, currentBackground))
             container.addView(view)
             
-            // This is critical - rebind to the new view
-            keyboardBinding = KeyboardLayoutBinding.bind(view)
-            
-            // Setup button listeners with current view context  
+            keyboardBinding = KeyboardBinding(view)
             setupButtonListeners(symbolButtonIds)
-            
-            // Apply existing style without recalculating theme
-            keyboardBinding.root.setBackgroundColor(ContextCompat.getColor(this, currentBackground))
         }
         
-        // Apply consistent style to buttons without changing theme properties
-        setButtonStyle(currentTheme)
+        // Apply consistent button styling but don't reapply background (which causes the flicker)
+        applyConsistentButtonStyle()
+        updateTopSectionTheme(isNightMode)
+    }
+
+    // New method for consistent button styling without changing background
+    private fun applyConsistentButtonStyle() {
+        val styleResId = if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) 
+            R.style.btnDarkTheme else R.style.btnLightTheme
+        
+        val currentButtonIds = if (isSymbolsLayout) symbolButtonIds else letterButtonIds
+        
+        for (buttonId in currentButtonIds) {
+            val button = keyboardBinding.root.findViewById<Button>(buttonId)
+            button?.setTextAppearance(styleResId)
+        }
+    }
+
+    // New method to apply appropriate theme based on current mode
+    private fun applyAppropriateTheme() {
+        val isNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+        if (isNightMode) {
+            applyDarkTheme()
+        } else {
+            applyLightTheme()
+        }
+    }
+
+    // Apply dark theme to all elements
+    private fun applyDarkTheme() {
+        // Apply background color
+        keyboardBinding.root.setBackgroundColor(ContextCompat.getColor(this, R.color.relateos_grey_light_bg))
+        
+        // Apply button styling
+        setButtonStyle(R.style.btnDarkTheme)
+        
+        // Update top section if available
+        updateTopSectionTheme(true)
+    }
+
+    // Apply light theme to all elements
+    private fun applyLightTheme() {
+        // Apply background color
+        keyboardBinding.root.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+        
+        // Apply button styling
+        setButtonStyle(R.style.btnLightTheme)
+        
+        // Update top section if available
+        updateTopSectionTheme(false)
+    }
+
+    // Update the top section theme
+    private fun updateTopSectionTheme(isDarkMode: Boolean) {
+        // Find top section elements through parent hierarchy
+        val baseView = keyboardBinding.root.parent?.parent as? View ?: return
+        
+        // Update top section background
+        val topSection = baseView.findViewById<FrameLayout>(R.id.topSectionContainer) ?: return
+        val autoSuggestions = baseView.findViewById<LinearLayout>(R.id.autoSuggestionsLayout)
+        val screenToggles = baseView.findViewById<HorizontalScrollView>(R.id.screenTogglesLayout)
+        
+        val backgroundColor = if (isDarkMode) R.color.relateos_grey_light_bg else R.color.white
+        topSection.setBackgroundColor(ContextCompat.getColor(this, backgroundColor))
+        autoSuggestions?.setBackgroundColor(ContextCompat.getColor(this, backgroundColor))
+        screenToggles?.setBackgroundColor(ContextCompat.getColor(this, backgroundColor))
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

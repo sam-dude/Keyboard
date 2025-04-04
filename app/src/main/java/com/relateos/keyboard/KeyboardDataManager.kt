@@ -79,14 +79,37 @@ class KeyboardDataManager(context: Context) {
         return preferences.getString(key, defaultValue) ?: defaultValue
     }
     
+    // Conversations Section
+    fun saveConversation(text: String) {
+        val conversations = getConversations().toMutableList()
+        if (text in conversations) {
+            conversations.remove(text)
+        }
+        conversations.add(0, text)
+        if (conversations.size > MAX_CONVERSATIONS) {
+            conversations.removeAt(conversations.lastIndex)
+        }
+        
+        preferences.edit()
+            .putString(KEY_CONVERSATIONS, conversations.joinToString(SEPARATOR))
+            .apply()
+    }
+    
+    fun getConversations(): List<String> {
+        val saved = preferences.getString(KEY_CONVERSATIONS, "") ?: ""
+        return if (saved.isBlank()) emptyList() else saved.split(SEPARATOR)
+    }
+    
     companion object {
         private const val SEPARATOR = "|||"
         private const val MAX_RECENT_ITEMS = 10
         private const val MAX_CLIPBOARD_ITEMS = 20
+        private const val MAX_CONVERSATIONS = 20
         
         // Storage keys
         private const val KEY_RECENT_PROMPTS = "recent_prompts"
         private const val KEY_CLIPBOARD_ITEMS = "clipboard_items"
+        private const val KEY_CONVERSATIONS = "conversations"
         
         // Settings keys (can be used with saveSetting/getSetting)
         const val SETTING_THEME = "theme"
